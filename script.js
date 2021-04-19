@@ -128,7 +128,7 @@ function drawNet() {
 }
 
 function drawEverything() {
-	// next line blanks out the screen with black
+
 	colorRect(0,0,canvas.width,canvas.height,'green');
 
 	if(showingWinScreen) {
@@ -136,27 +136,30 @@ function drawEverything() {
 
 		if(player1Score >= WINNING_SCORE) {
 			canvasContext.fillText("Left Player Won", 350, 200);
+			drawProgressBarBlue();
 		} else if(player2Score >= WINNING_SCORE) {
 			canvasContext.fillText("Right Player Won", 350, 200);
+			drawProgressBarBlack();
 		}
 
 		canvasContext.fillText("click to continue", 350, 500);
 		return;
+
 	}
-
+		
+	drawProgressBarBlue();
+	drawProgressBarBlack();
 	drawNet();
-
-	// this is left player paddle
 	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'teal');
 
-	// this is right computer paddle
 	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
 
-	// next line draws the ball
 	colorCircle(ballX, ballY, 10, 'white');
 
 	canvasContext.fillText(player1Score, 100, 100);
 	canvasContext.fillText(player2Score, canvas.width-100, 100);
+
+
 }
 
 function colorCircle(centerX, centerY, radius, drawColor) {
@@ -169,4 +172,37 @@ function colorCircle(centerX, centerY, radius, drawColor) {
 function colorRect(leftX,topY, width,height, drawColor) {
 	canvasContext.fillStyle = drawColor;
 	canvasContext.fillRect(leftX,topY, width,height);
+}
+
+
+
+// Progress bar
+function drawProgressBarBlue() {
+	colorRect(100, 550, 2, 20, "blue");
+	colorRect(300, 550, 2, 20, "blue");
+	for(var i=550;i<570;i+=18) {
+		if(i>551 && i <569){
+			//bottom line
+			colorRect(100, i, 200, 2, "blue");
+			continue;
+		}
+		//top line
+		colorRect(100, i, 200, 2, "blue");
+	}
+	colorRect(100, 550, player1Score*(200/WINNING_SCORE), 20, "blue");
+}
+
+function drawProgressBarBlack() {
+	colorRect(500, 550, 2, 20, "black");
+	colorRect(700, 550, 2, 20, "black");
+	for(var i=550;i<570;i+=18) {
+		if(i>551 && i <569){
+			//bottom line
+			colorRect(500, i, 200, 2, "black");
+			continue;
+		}
+		//top line
+		colorRect(500, i, 200, 2, "black");
+	}
+	colorRect(700, 550, -player2Score*(200/WINNING_SCORE), 20, "black");
 }
